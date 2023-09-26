@@ -8,6 +8,9 @@ import org.dom4j.io.SAXReader;
 import java.net.URL;
 import java.util.Iterator;
 
+/**
+ * Resource是一个数据源接口，目的是为了将多种数据源注入,这里是其中一种数据源的实现,从XML中读取数据
+ */
 // 这里是读取xml文件，
 public class ClassPathXmlResource implements Resource {
 
