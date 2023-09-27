@@ -1,30 +1,41 @@
 package factory;
 
-import beans.BeanDefinition;
+import beans.BeanDefinitionRegistry;
+import entity.BeanDefinition;
 import beans.DefaultSingletonBeanRegistry;
 import exception.BeansException;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 // 这里是用工厂方法，来替换ClassPathXmlApplicationContext类
-public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
 
-    private final Map<String, BeanDefinition> beanDefinitions = new ConcurrentHashMap<>(256);
+/**
+ * 实现了BeanFactory和BeanDefinitionRegistry，那么它即是一个工厂，同时也是一个仓库，既能生产，也生存储
+ */
+public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory, BeanDefinitionRegistry {
+
+//    private final Map<String, BeanDefinition> beanDefinitions = new ConcurrentHashMap<>(256);
+    // 存放具体的名称
+    private final List<String> beanDefinitionNames = new ArrayList<>();
+
+    private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
 
     public SimpleBeanFactory() {
 
     }
 
-    // 根据名称获取bean
+    // 根据名称获取对应的实例，如果存在直接取出返回，如果不存在则注册该实例
     public Object getBean(String beanName) throws BeansException {
         // 先尝试直接拿bean实例
         Object singleton = this.getSingleton(beanName);
         // 如果此时还没有这个bean的实例，则获取它的定义来创建实例
         if (singleton == null) {
             // 获取bean的定义
-            BeanDefinition beanDefinition = beanDefinitions.get(beanName);
+            BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
             if (beanDefinition == null) {
                 throw new BeansException("No bean.");
             }
@@ -40,12 +51,56 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         return singleton;
     }
 
-    public void registerBeanDefinition(BeanDefinition beanDefinition) {
-        this.beanDefinitions.put(beanDefinition.getId(), beanDefinition);
+    /**
+     * 该方法是该工厂私有的
+     * @param name 根据
+     * @param beanDefinition 一个已经封装好的beanDefinition
+     */
+    public void registerBeanDefinition(String name, BeanDefinition beanDefinition) {
+        this.beanDefinitionMap.put(name, beanDefinition);
+        this.beanDefinitionNames.add(name);
+        if (!beanDefinition.isLazyInit()) {
+            try {
+                getBean(name);
+            } catch (BeansException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public Boolean containsBean(String name) {
+    public void removeBeanDefinition(String name) {
+        this.beanDefinitionMap.remove(name);
+        this.beanDefinitionNames.remove(name);
+        this.removeSingleton(name);
+    }
+
+    @Override
+    public BeanDefinition getBeanDefinition(String name) {
+        return this.beanDefinitionMap.get(name);
+    }
+
+    @Override
+    public boolean containsBeanDefinition(String name) {
+        return this.beanDefinitionMap.containsKey(name);
+    }
+
+    public boolean containsBean(String name) {
         return containsSingleton(name);
+    }
+
+    @Override
+    public boolean isSingleton(String name) {
+        return this.beanDefinitionMap.get(name).isSingleton();
+    }
+
+    @Override
+    public boolean isPrototype(String name) {
+        return this.beanDefinitionMap.get(name).isPrototype();
+    }
+
+    @Override
+    public Class<?> getType(String name) {
+        return this.beanDefinitionMap.get(name).getClass();
     }
 
     public void registerBean(String beanName, Object obj) {
