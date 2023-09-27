@@ -1,7 +1,8 @@
 package utils;
 
 import beans.BeanDefinition;
-import beans.BeanFactory;
+import factory.BeanFactory;
+import factory.SimpleBeanFactory;
 import org.dom4j.Element;
 
 // 将解析好的xml转换为BeanDefinition
@@ -9,8 +10,11 @@ public class XmlBeanDefinitionReader {
     // 工厂
     BeanFactory beanFactory;
 
-    public XmlBeanDefinitionReader(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
+    // 简单工厂
+    SimpleBeanFactory simpleBeanFactory;
+
+    public XmlBeanDefinitionReader(SimpleBeanFactory simpleBeanFactory) {
+        this.simpleBeanFactory = simpleBeanFactory;
     }
 
     public void loadBeanDefinitions(Resource resource) {
@@ -22,7 +26,7 @@ public class XmlBeanDefinitionReader {
             String beanClassName = element.attributeValue("class");
             BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
             // 存储进工厂的list
-            this.beanFactory.registerBeanDefinition(beanDefinition);
+            this.beanFactory.registerBean("beanName", beanDefinition);
         }
     }
 }
