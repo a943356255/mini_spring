@@ -1,6 +1,6 @@
 package utils;
 
-import beans.BeanDefinition;
+import entity.BeanDefinition;
 import factory.BeanFactory;
 import factory.SimpleBeanFactory;
 import org.dom4j.Element;
@@ -26,7 +26,7 @@ public class XmlBeanDefinitionReader {
             String beanClassName = element.attributeValue("class");
             BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
             // 存储进工厂的list
-            this.beanFactory.registerBean("beanName", beanDefinition);
+            this.simpleBeanFactory.registerBean("beanName", beanDefinition);
         }
     }
 }
