@@ -1,4 +1,4 @@
-package beans.singleton_factory;
+package beans;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

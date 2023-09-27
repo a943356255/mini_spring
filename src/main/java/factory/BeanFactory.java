@@ -1,4 +1,4 @@
-package beans.simple_factory;
+package factory;
 
 import exception.BeansException;
 

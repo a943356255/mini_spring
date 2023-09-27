@@ -1,8 +1,8 @@
 package utils;
 
 import beans.BeanDefinition;
-import beans.simple_factory.BeanFactory;
-import beans.simple_factory.SimpleBeanFactory;
+import factory.BeanFactory;
+import factory.SimpleBeanFactory;
 import exception.BeansException;
 
 public class ClassPathXmlApplicationContext {

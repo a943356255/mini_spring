@@ -1,7 +1,7 @@
-package beans.simple_factory;
+package factory;
 
 import beans.BeanDefinition;
-import beans.singleton_factory.DefaultSingletonBeanRegistry;
+import beans.DefaultSingletonBeanRegistry;
 import exception.BeansException;
 
 import java.lang.reflect.InvocationTargetException;
