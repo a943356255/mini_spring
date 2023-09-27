@@ -25,20 +25,26 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
 
     private final Map<String, Object> singletons = new HashMap<>();
 
-    BeanFactory beanFactory;
+    SimpleBeanFactory beanFactory;
 
-    // context负责整合容器的启动过程，读外部配置，解析Bean定义，创建BeanFactory
-    public ClassPathXmlApplicationContext(String fileName) {
+    public ClassPathXmlApplicationContext(String fileName, boolean isRefresh) {
         // Resource是一个接口，实例化一个ClassPathXmlResource
         Resource resource = new ClassPathXmlResource(fileName);
         // 实例化一个工厂
-        SimpleBeanFactory beanFactory = new SimpleBeanFactory();
+        SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
         // 为了将从xml中读取到的内容转化为BeanDefinition
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
-        reader.loadBeanDefinitions(resource);
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(simpleBeanFactory);
 
-        // 将生成的beanFactory赋给当前对象,后续调用获取对象以及注册都是通过这个beanFactory
-        this.beanFactory = beanFactory;
+        reader.loadBeanDefinitions(resource);
+        this.beanFactory = simpleBeanFactory;
+        if (isRefresh) {
+            this.beanFactory.refresh();
+        }
+    }
+
+    // context负责整合容器的启动过程，读外部配置，解析Bean定义，创建BeanFactory
+    public ClassPathXmlApplicationContext(String fileName) {
+        this(fileName, true);
     }
 
     // context再对外提供一个getBean，底下就是调用的BeanFactory对应的方法
