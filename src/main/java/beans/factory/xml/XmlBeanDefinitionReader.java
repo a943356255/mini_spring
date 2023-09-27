@@ -1,9 +1,9 @@
-package factory.xml;
+package beans.factory.xml;
 
 import core.Resource;
 import entity.BeanDefinition;
-import factory.BeanFactory;
-import factory.SimpleBeanFactory;
+import beans.factory.BeanFactory;
+import beans.factory.SimpleBeanFactory;
 import org.dom4j.Element;
 
 // 将解析好的xml转换为BeanDefinition

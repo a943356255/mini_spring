@@ -1,4 +1,4 @@
-package factory;
+package beans.factory;
 
 import beans.BeanDefinitionRegistry;
 import entity.BeanDefinition;
