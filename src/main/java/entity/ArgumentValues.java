@@ -8,8 +8,14 @@ public class ArgumentValues {
 
     private final List<ArgumentValue> genericArgumentValues = new LinkedList<>();
 
+    private final List<ArgumentValue> argumentValueList = new ArrayList<>();
+
     public ArgumentValues() {
 
+    }
+
+    public void addArgumentValue(ArgumentValue argumentValue) {
+        this.argumentValueList.add(argumentValue);
     }
 
     private void addArgumentValue(Integer key, ArgumentValue newValue) {
