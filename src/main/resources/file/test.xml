@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
     <bean id = "aService" class = "com.example.springboot_vue.mini_spring.service.impl.AServiceImpl"></bean>
+
+    <bean id="aService" class="com.minis.test.AServiceImpl">
+        <property type="String" name="property1" value="Hello World!"/>
+    </bean>
 </beans>
