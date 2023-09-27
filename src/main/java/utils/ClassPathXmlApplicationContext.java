@@ -1,8 +1,8 @@
 package utils;
 
 import beans.BeanDefinition;
-import beans.BeanFactory;
-import beans.SimpleBeanFactory;
+import beans.simple_factory.BeanFactory;
+import beans.simple_factory.SimpleBeanFactory;
 import exception.BeansException;
 
 public class ClassPathXmlApplicationContext {
@@ -14,7 +14,7 @@ public class ClassPathXmlApplicationContext {
         // Resource是一个接口，实例化一个ClassPathXmlResource
         Resource resource = new ClassPathXmlResource(fileName);
         // 实例化一个工厂
-        BeanFactory beanFactory = new SimpleBeanFactory();
+        SimpleBeanFactory beanFactory = new SimpleBeanFactory();
         // 为了将从xml中读取到的内容转化为BeanDefinition
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
         reader.loadBeanDefinitions(resource);
@@ -28,8 +28,14 @@ public class ClassPathXmlApplicationContext {
         return this.beanFactory.getBean(beanName);
     }
 
-    public void registerBeanDefinition(BeanDefinition beanDefinition) {
-        this.beanFactory.registerBeanDefinition(beanDefinition);
+    // 是否存在bean
+    public Boolean containsBean(String name) {
+        return this.beanFactory.containsBean(name);
+    }
+
+    // 注册bean
+    public void registerBean(BeanDefinition beanDefinition) {
+        this.beanFactory.registerBean("beanName", beanDefinition);
     }
 
 //    // 这里是用一个BeanDefinition，来存储xml中的id以及bean的路径
