@@ -1,11 +1,11 @@
 package service.impl;
 
-import service.AService;
+public class AServiceImpl {
 
-public class AServiceImpl implements AService {
+    private String name;
+    private int level;
 
-    @Override
-    public void sayHello() {
-        System.out.println("test say hello");
+    public AServiceImpl(String name, int level) {
+        this.name = name; this.level = level;
     }
 }
