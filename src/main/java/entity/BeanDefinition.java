@@ -7,6 +7,8 @@ public class BeanDefinition {
 
     // 要不要在加载的时候初始化
     private boolean lazyInit = false;
+    private boolean isSingleton = false;
+    private boolean isPrototype = false;
     // 记录属性之间的依赖关系
     private String[] dependsOn;
     private ArgumentValues constructorArgumentValues;
@@ -110,5 +112,21 @@ public class BeanDefinition {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public boolean isSingleton() {
+        return isSingleton;
+    }
+
+    public void setSingleton(boolean singleton) {
+        isSingleton = singleton;
+    }
+
+    public boolean isPrototype() {
+        return isPrototype;
+    }
+
+    public void setPrototype(boolean prototype) {
+        isPrototype = prototype;
     }
 }
