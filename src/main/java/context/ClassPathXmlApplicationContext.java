@@ -1,5 +1,7 @@
-package utils;
+package context;
 
+import core.ClassPathXmlResource;
+import core.Resource;
 import entity.BeanDefinition;
 import factory.BeanFactory;
 import factory.SimpleBeanFactory;
@@ -10,6 +12,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import factory.xml.XmlBeanDefinitionReader;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;

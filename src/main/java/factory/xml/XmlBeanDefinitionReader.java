@@ -1,5 +1,6 @@
-package utils;
+package factory.xml;
 
+import core.Resource;
 import entity.BeanDefinition;
 import factory.BeanFactory;
 import factory.SimpleBeanFactory;
