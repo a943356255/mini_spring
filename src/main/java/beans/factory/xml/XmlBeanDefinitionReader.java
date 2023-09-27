@@ -20,6 +20,11 @@ public class XmlBeanDefinitionReader {
         this.simpleBeanFactory = simpleBeanFactory;
     }
 
+    /**
+     * 程序解析 标签后，获取了 ref 的参数，同时有针对性地设置了 isRef 的值，把它添加到了 PropertyValues 内，
+     * 最后程序调用 setDependsOn 方法，它记录了某一个 Bean 引用的其他 Bean。这样，我们引用 ref 的配置就定义好了。
+     * 上述解释是在xml中添加了一个对象引用另一个对象的ref后，如何解析xml文件
+     */
     public void loadBeanDefinitions(Resource resource) {
         // resource里存储了所有从xml中解析出来的bean
         while (resource.hasNext()) {
@@ -32,11 +37,23 @@ public class XmlBeanDefinitionReader {
             // 处理属性
             List<Element> propertyElements = element.elements("property");
             PropertyValues PVS = new PropertyValues();
+            List<String> refs = new ArrayList<>();
             for (Element e : propertyElements) {
                 String pType = e.attributeValue("type");
                 String pName = e.attributeValue("name");
                 String pValue = e.attributeValue("value");
-                PVS.addPropertyValue(new PropertyValue(pType, pName, pValue));
+                String pRef = e.attributeValue("ref");
+                String pV;
+                boolean isRef;
+                if (pValue != null && !pValue.equals("")) {
+                    isRef = false;
+                    pV = pValue;
+                } else {
+                    isRef = true;
+                    pV = pRef;
+                    refs.add(pRef);
+                }
+                PVS.addPropertyValue(new PropertyValue(pType, pName, pV, isRef));
             }
             beanDefinition.setPropertyValues(PVS);
 
@@ -51,6 +68,9 @@ public class XmlBeanDefinitionReader {
             }
             beanDefinition.setConstructorArgumentValues(AVS);
 
+            String[] refArray = refs.toArray(new String[0]);
+            // 这里是设置了它的依赖
+            beanDefinition.setDependsOn(refArray);
             // 存储进工厂的list,这里beanId已经是动态获取的
             this.simpleBeanFactory.registerBeanDefinition(beanID, beanDefinition);
             // 下面这种方法导致no bean
