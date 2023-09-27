@@ -26,7 +26,9 @@ public class XmlBeanDefinitionReader {
             String beanClassName = element.attributeValue("class");
             BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
             // 存储进工厂的list
-            this.simpleBeanFactory.registerBean("beanName", beanDefinition);
+            this.simpleBeanFactory.registerBeanDefinition("beanName", beanDefinition);
+            // 下面这种方法导致no bean
+//            this.simpleBeanFactory.registerBean("beanName", beanDefinition);
         }
     }
 }

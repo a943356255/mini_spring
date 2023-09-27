@@ -40,7 +40,7 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
                 throw new BeansException("No bean.");
             }
             try {
-                singleton = Class.forName(beanDefinition.getClassName()).getDeclaredConstructor().newInstance();;
+                singleton = Class.forName(beanDefinition.getClassName()).getDeclaredConstructor().newInstance();
             } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }

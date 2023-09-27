@@ -4,8 +4,23 @@ import entity.BeanDefinition;
 import factory.BeanFactory;
 import factory.SimpleBeanFactory;
 import exception.BeansException;
+import listener.ApplicationEvent;
+import listener.ApplicationEventPublisher;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
-public class ClassPathXmlApplicationContext {
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.*;
+
+public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationEventPublisher {
+
+    // 这里是用一个BeanDefinition，来存储xml中的id以及bean的路径
+    private final List<BeanDefinition> beanDefinitions = new ArrayList<>();
+
+    private final Map<String, Object> singletons = new HashMap<>();
 
     BeanFactory beanFactory;
 
@@ -29,7 +44,7 @@ public class ClassPathXmlApplicationContext {
     }
 
     // 是否存在bean
-    public Boolean containsBean(String name) {
+    public boolean containsBean(String name) {
         return this.beanFactory.containsBean(name);
     }
 
@@ -38,52 +53,61 @@ public class ClassPathXmlApplicationContext {
         this.beanFactory.registerBean("beanName", beanDefinition);
     }
 
-//    // 这里是用一个BeanDefinition，来存储xml中的id以及bean的路径
-//    private final List<BeanDefinition> beanDefinitions = new ArrayList<>();
-//
-//    private final Map<String, Object> singletons = new HashMap<>();
-//
-//    // 构造器获取外部配置，解析出Bean的定义，形成内存映像
-//    public ClassPathXmlApplicationContext(String fileName) {
-//        this.readXml(fileName);
-//        this.instanceBeans();
-//    }
-//
-//    // 该方法只是从xml中读取所有定义的bean，获取到id以及他们的路径，并且存储
-//    private void readXml(String fileName) {
-//        SAXReader saxReader = new SAXReader();
-//        try {
-//            // 这种方法是从编译后的classes目录来加载资源
-//            URL xmlPath = this.getClass().getClassLoader().getResource(fileName);
-//            Document document = saxReader.read(xmlPath);
-//            Element rootElement = document.getRootElement();
-//            // 对配置文件中的每一个<bean>，进行处理
-//            for (Element element : (List<Element>) rootElement.elements()) {
-//                // 获取Bean的基本信息
-//                String beanID = element.attributeValue("id");
-//                String beanClassName = element.attributeValue("class");
-//                BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
-//                // 将Bean的定义存放到beanDefinitions
-//                beanDefinitions.add(beanDefinition);
-//            }
-//        } catch (DocumentException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    // 利用反射创建Bean实例，并存储在singletons中
-//    private void instanceBeans() {
-//        for (BeanDefinition beanDefinition : beanDefinitions) {
-//            try {
-//                singletons.put(beanDefinition.getId(), Class.forName(beanDefinition.getClassName()).getDeclaredConstructor().newInstance());
-//            } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    // 这是对外的一个方法，让外部程序从容器中获取Bean实例，会逐步演化成核心方法
-//    public Object getBean(String beanName) {
-//        return singletons.get(beanName);
-//    }
+    // 该方法只是从xml中读取所有定义的bean，获取到id以及他们的路径，并且存储
+    private void readXml(String fileName) {
+        SAXReader saxReader = new SAXReader();
+        try {
+            // 这种方法是从编译后的classes目录来加载资源
+            URL xmlPath = this.getClass().getClassLoader().getResource(fileName);
+            Document document = saxReader.read(xmlPath);
+            Element rootElement = document.getRootElement();
+            // 对配置文件中的每一个<bean>，进行处理
+            for (Element element : (List<Element>) rootElement.elements()) {
+                // 获取Bean的基本信息
+                String beanID = element.attributeValue("id");
+                String beanClassName = element.attributeValue("class");
+                BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
+                // 将Bean的定义存放到beanDefinitions
+                beanDefinitions.add(beanDefinition);
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 利用反射创建Bean实例，并存储在singletons中
+    private void instanceBeans() {
+        for (BeanDefinition beanDefinition : beanDefinitions) {
+            try {
+                singletons.put(beanDefinition.getId(), Class.forName(beanDefinition.getClassName()).getDeclaredConstructor().newInstance());
+            } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void registerBean(String beanName, Object obj) {
+
+    }
+
+    @Override
+    public boolean isSingleton(String name) {
+        return false;
+    }
+
+    @Override
+    public boolean isPrototype(String name) {
+        return false;
+    }
+
+    @Override
+    public Class<?> getType(String name) {
+        return null;
+    }
+
+    @Override
+    public void publishEvent(ApplicationEvent event) {
+
+    }
 }
