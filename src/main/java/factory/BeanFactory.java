@@ -4,10 +4,12 @@ import exception.BeansException;
 
 public interface BeanFactory {
 
-    Object getBean(String beanName) throws BeansException;
+    Object getBean(String name) throws BeansException;
+    boolean containsBean(String name);
 
-    Boolean containsBean(String name);
+    boolean isSingleton(String name);
 
-    void registerBean(String beanName, Object obj);
+    boolean isPrototype(String name);
 
+    Class<?> getType(String name);
 }
