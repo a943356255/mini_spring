@@ -1,6 +1,6 @@
 package utils;
 
-import beans.BeanDefinition;
+import entity.BeanDefinition;
 import factory.BeanFactory;
 import factory.SimpleBeanFactory;
 import exception.BeansException;
