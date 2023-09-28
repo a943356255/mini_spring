@@ -72,8 +72,6 @@ public class XmlBeanDefinitionReader {
             beanDefinition.setDependsOn(refArray);
             // 存储进工厂的list,这里beanId已经是动态获取的
             this.simpleBeanFactory.registerBeanDefinition(beanID, beanDefinition);
-            // 下面这种方法导致no bean
-//            this.simpleBeanFactory.registerBean("beanName", beanDefinition);
         }
     }
 }

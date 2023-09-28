@@ -4,11 +4,13 @@ import beans.BeanDefinitionRegistry;
 import entity.*;
 import beans.DefaultSingletonBeanRegistry;
 import exception.BeansException;
+import service.BaseService;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -177,7 +179,6 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 
                 String methodName = "set" + pName.substring(0,1).toUpperCase() + pName.substring(1);
                 Method method = null;
-
                 try {
                     method = clz.getMethod(methodName, paramTypes);
                 } catch (NoSuchMethodException e) {
@@ -237,13 +238,13 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
     public void registerBeanDefinition(String name, BeanDefinition beanDefinition) {
         this.beanDefinitionMap.put(name, beanDefinition);
         this.beanDefinitionNames.add(name);
-        if (!beanDefinition.isLazyInit()) {
-            try {
-                getBean(name);
-            } catch (BeansException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (!beanDefinition.isLazyInit()) {
+//            try {
+//                getBean(name);
+//            } catch (BeansException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public void removeBeanDefinition(String name) {
