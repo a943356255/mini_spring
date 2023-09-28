@@ -71,46 +71,6 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         // 处理属性,因为属性中有指向其他对象的ref，所以需要特殊处理一下
         // 这里是创建完毛坯实例后，进行后续属性的补齐
         handleProperties(beanDefinition, clz, obj);
-//        PropertyValues propertyValues = beanDefinition.getPropertyValues();
-//        if (!propertyValues.isEmpty()) {
-//            for (int i = 0; i < propertyValues.size(); i++) {
-//                // 对每一个属性，分数据类型分别处理
-//                PropertyValue propertyValue = propertyValues.getPropertyValueList().get(i);
-//                String pType = propertyValue.getType();
-//                String pName = propertyValue.getName();
-//                Object pValue = propertyValue.getValue();
-//                // class是因为不同的属性有不同的类型，比如说String，或者Integer，所以要进行存储
-//                Class<?>[] paramTypes = new Class<?>[1];
-//
-//                if ("String".equals(pType) || "java.lang.String".equals(pType)) {
-//                    paramTypes[0] = String.class;
-//                } else if ("Integer".equals(pType) || "java.lang.Integer".equals(pType)) {
-//                    paramTypes[0] = Integer.class;
-//                } else if ("int".equals(pType)) {
-//                    paramTypes[0] = int.class;
-//                } else {
-//                    // 默认为string
-//                    paramTypes[0] = String.class;
-//                }
-//                Object[] paramValues = new Object[1];
-//                paramValues[0] = pValue;
-//
-//                // 按照setXxxx规范查找setter方法，调用setter方法设置属性
-//                String methodName = "set" + pName.substring(0, 1).toUpperCase() + pName.substring(1);
-//                Method method = null;
-//                try {
-//                    method = clz.getMethod(methodName, paramTypes);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                try {
-//                    method.invoke(obj, paramValues);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-
         return obj;
     }
 
@@ -258,6 +218,7 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         return singleton;
     }
 
+    // 可以激活整个Ioc容器
     public void refresh() {
         for (String beanName : beanDefinitionNames) {
             try {
@@ -323,56 +284,4 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
     public void registerBean(String beanName, Object obj) {
         this.registerSingleton(beanName, obj);
     }
-
-//    // 存储所有从xml中解析的bean的id以及name,组装成BeanDefinition
-//    private final List<BeanDefinition> beanDefinitions = new ArrayList<>();
-//    // 仅仅存储beanNames，用于快速判断xml中是否有该元素
-//    private final List<String> beanNames = new ArrayList<>();
-//    // 这里存储已经创建了的实例
-//    private final Map<String, Object> singletons = new HashMap<>();
-//
-//    public SimpleBeanFactory() {
-//
-//    }
-//
-//    // getBean，容器的核心方法
-//    public Object getBean(String beanName) throws BeansException {
-//        // 先尝试直接拿Bean实例
-//        Object singleton = singletons.get(beanName);
-//        // 如果此时还没有这个Bean的实例，则获取它的定义来创建实例
-//        if (singleton == null) {
-//            int i = beanNames.indexOf(beanName);
-//            // i不存在，说明从xml中加载的内容没有该beanName，直接返回
-//            if (i == -1) {
-//                throw new BeansException();
-//            } else {
-//                // 获取Bean的定义
-//                BeanDefinition beanDefinition = beanDefinitions.get(i);
-//                try {
-//                    singleton = Class.forName(beanDefinition.getClassName()).getDeclaredConstructor().newInstance();
-//                } catch (IllegalAccessException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException e) {
-//                    e.printStackTrace();
-//                }
-//                // 注册Bean实例
-//                singletons.put(beanDefinition.getId(), singleton);
-//            }
-//        }
-//
-//        return singleton;
-//    }
-//
-//    @Override
-//    public Boolean containsBean(String name) {
-//        return null;
-//    }
-//
-//    @Override
-//    public void registerBean(String beanName, Object obj) {
-//
-//    }
-//
-//    public void registerBean(String BeanName, BeanDefinition beanDefinition) {
-//        this.beanDefinitions.add(beanDefinition);
-//        this.beanNames.add(beanDefinition.getId());
-//    }
 }

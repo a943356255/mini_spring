@@ -33,7 +33,6 @@ public class XmlBeanDefinitionReader {
             String beanID = element.attributeValue("id");
             String beanClassName = element.attributeValue("class");
             BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
-
             // 处理属性
             List<Element> propertyElements = element.elements("property");
             PropertyValues PVS = new PropertyValues();
@@ -57,7 +56,7 @@ public class XmlBeanDefinitionReader {
             }
             beanDefinition.setPropertyValues(PVS);
 
-            //处理构造器参数
+            // 处理构造器参数
             List<Element> constructorElements = element.elements("constructor-arg");
             ArgumentValues AVS = new ArgumentValues();
             for (Element e : constructorElements) {

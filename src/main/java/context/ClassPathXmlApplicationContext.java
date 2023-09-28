@@ -29,6 +29,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
 
     public ClassPathXmlApplicationContext(String fileName, boolean isRefresh) {
         // Resource是一个接口，实例化一个ClassPathXmlResource
+        // 这一步，其实已经从xml中读取完了，读取到的内容已经给了Resource中的Element
         Resource resource = new ClassPathXmlResource(fileName);
         // 实例化一个工厂
         SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();

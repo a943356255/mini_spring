@@ -1,8 +1,9 @@
 package service.impl;
 
+import service.AService;
 import service.BaseService;
 
-public class AServiceImpl {
+public class AServiceImpl implements AService {
 
     private String name;
     private int level;
