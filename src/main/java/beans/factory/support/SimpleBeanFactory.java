@@ -32,10 +32,21 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
      * 创建 Bean 实例的时候，不用等到所有步骤完成，而是可以在属性还没有注入之前，就把早期的毛胚实例先保存起来，供属性注入时使用。
      * 是为了解决循环依赖，比如创建A需要依赖B，而创建B需要依赖C，创建C又依赖A，就提前创建毛坯存入供他们创建使用
      */
-    private final Map<String, Object> earlySingletonObjects = new ConcurrentHashMap<>(256);
+    private final Map<String, Object> earlySingletonObjects = new ConcurrentHashMap<>(16);
 
     public SimpleBeanFactory() {
 
+    }
+
+    // 可以激活整个Ioc容器
+    public void refresh() {
+        for (String beanName : beanDefinitionNames) {
+            try {
+                getBean(beanName);
+            } catch (BeansException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -216,17 +227,6 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         }
 
         return singleton;
-    }
-
-    // 可以激活整个Ioc容器
-    public void refresh() {
-        for (String beanName : beanDefinitionNames) {
-            try {
-                getBean(beanName);
-            } catch (BeansException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
