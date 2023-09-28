@@ -6,6 +6,14 @@ public class BaseBaseService {
 
     private AServiceImpl as;
 
+    public BaseBaseService() {
+
+    }
+
+    public BaseBaseService(AServiceImpl as) {
+        this.as = as;
+    }
+
     public AServiceImpl getAs() {
         return as;
     }
