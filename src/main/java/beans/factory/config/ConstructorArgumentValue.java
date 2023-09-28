@@ -1,6 +1,6 @@
-package entity;
+package beans.factory.config;
 
-public class ArgumentValue {
+public class ConstructorArgumentValue {
 
     private Object value;
 
@@ -8,12 +8,12 @@ public class ArgumentValue {
 
     private String name;
 
-    public ArgumentValue(Object value, String type) {
+    public ConstructorArgumentValue(Object value, String type) {
         this.value = value;
         this.type = type;
     }
 
-    public ArgumentValue(Object value, String type, String name) {
+    public ConstructorArgumentValue(Object value, String type, String name) {
         this.value = value;
         this.type = type;
         this.name = name;

@@ -1,16 +1,16 @@
-package beans.factory;
+package beans.factory.support;
 
-import beans.BeanDefinitionRegistry;
+import beans.factory.BeanFactory;
+import beans.factory.config.BeanDefinition;
+import beans.factory.config.ConstructorArgumentValue;
+import beans.factory.config.ConstructorArgumentValues;
 import entity.*;
-import beans.DefaultSingletonBeanRegistry;
 import exception.BeansException;
-import service.BaseService;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,7 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory, BeanDefinitionRegistry {
 
-//    private final Map<String, BeanDefinition> beanDefinitions = new ConcurrentHashMap<>(256);
     // 存放具体的名称
     private final List<String> beanDefinitionNames = new ArrayList<>();
 
@@ -87,27 +86,27 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         try {
             clz = Class.forName(beanDefinition.getClassName());
             // 处理构造器参数
-            ArgumentValues argumentValues = beanDefinition.getConstructorArgumentValues();
+            ConstructorArgumentValues constructorArgumentValues = beanDefinition.getConstructorArgumentValues();
             // 如果有参数
-            if (!argumentValues.isEmpty()) {
-                Class<?>[] paramTypes = new Class<?>[argumentValues.getArgumentCount()];
-                Object[] paramValues = new Object[argumentValues.getArgumentCount()];
+            if (!constructorArgumentValues.isEmpty()) {
+                Class<?>[] paramTypes = new Class<?>[constructorArgumentValues.getArgumentCount()];
+                Object[] paramValues = new Object[constructorArgumentValues.getArgumentCount()];
                 // 对每一个参数，分数据类型分别处理
-                for (int i = 0; i < argumentValues.getArgumentCount(); i++) {
-                    ArgumentValue argumentValue = argumentValues.getIndexedArgumentValue(i);
-                    if ("String".equals(argumentValue.getType()) || "java.lang.String".equals(argumentValue.getType())) {
+                for (int i = 0; i < constructorArgumentValues.getArgumentCount(); i++) {
+                    ConstructorArgumentValue constructorArgumentValue = constructorArgumentValues.getIndexedArgumentValue(i);
+                    if ("String".equals(constructorArgumentValue.getType()) || "java.lang.String".equals(constructorArgumentValue.getType())) {
                         paramTypes[i] = String.class;
-                        paramValues[i] = argumentValue.getValue();
-                    } else if ("Integer".equals(argumentValue.getType()) || "java.lang.Integer".equals(argumentValue.getType())) {
+                        paramValues[i] = constructorArgumentValue.getValue();
+                    } else if ("Integer".equals(constructorArgumentValue.getType()) || "java.lang.Integer".equals(constructorArgumentValue.getType())) {
                         paramTypes[i] = Integer.class;
-                        paramValues[i] = Integer.valueOf((String)argumentValue.getValue());
-                    } else if ("int".equals(argumentValue.getType())) {
+                        paramValues[i] = Integer.valueOf((String) constructorArgumentValue.getValue());
+                    } else if ("int".equals(constructorArgumentValue.getType())) {
                         paramTypes[i] = int.class;
-                        paramValues[i] = Integer.valueOf((String) argumentValue.getValue());
+                        paramValues[i] = Integer.valueOf((String) constructorArgumentValue.getValue());
                     } else {
                         // 默认为string
                         paramTypes[i] = String.class;
-                        paramValues[i] = argumentValue.getValue();
+                        paramValues[i] = constructorArgumentValue.getValue();
                     }
                 }
 

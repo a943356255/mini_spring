@@ -1,9 +1,12 @@
 package beans.factory.xml;
 
+import beans.factory.config.BeanDefinition;
+import beans.factory.config.ConstructorArgumentValue;
+import beans.factory.config.ConstructorArgumentValues;
 import core.Resource;
 import entity.*;
 import beans.factory.BeanFactory;
-import beans.factory.SimpleBeanFactory;
+import beans.factory.support.SimpleBeanFactory;
 import org.dom4j.Element;
 
 import java.util.*;
@@ -58,12 +61,12 @@ public class XmlBeanDefinitionReader {
 
             // 处理构造器参数
             List<Element> constructorElements = element.elements("constructor-arg");
-            ArgumentValues AVS = new ArgumentValues();
+            ConstructorArgumentValues AVS = new ConstructorArgumentValues();
             for (Element e : constructorElements) {
                 String aType = e.attributeValue("type");
                 String aName = e.attributeValue("name");
                 String aValue = e.attributeValue("value");
-                AVS.addArgumentValue(new ArgumentValue(aType, aName, aValue));
+                AVS.addArgumentValue(new ConstructorArgumentValue(aType, aName, aValue));
             }
             beanDefinition.setConstructorArgumentValues(AVS);
 

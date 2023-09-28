@@ -1,4 +1,4 @@
-package beans;
+package beans.factory.config;
 
 /**
  * 这是一个注册bean的接口，我们可以有很多个实现方式，用不同的方法生成bean

@@ -2,9 +2,9 @@ package context;
 
 import core.ClassPathXmlResource;
 import core.Resource;
-import entity.BeanDefinition;
+import beans.factory.config.BeanDefinition;
 import beans.factory.BeanFactory;
-import beans.factory.SimpleBeanFactory;
+import beans.factory.support.SimpleBeanFactory;
 import exception.BeansException;
 import listener.ApplicationEvent;
 import listener.ApplicationEventPublisher;

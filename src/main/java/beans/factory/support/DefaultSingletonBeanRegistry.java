@@ -1,4 +1,6 @@
-package beans;
+package beans.factory.support;
+
+import beans.factory.config.SingletonBeanRegistry;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

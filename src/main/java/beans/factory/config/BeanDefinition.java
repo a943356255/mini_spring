@@ -1,4 +1,6 @@
-package entity;
+package beans.factory.config;
+
+import entity.PropertyValues;
 
 public class BeanDefinition {
 
@@ -11,7 +13,7 @@ public class BeanDefinition {
     private boolean isPrototype = false;
     // 记录属性之间的依赖关系
     private String[] dependsOn;
-    private ArgumentValues constructorArgumentValues;
+    private ConstructorArgumentValues constructorArgumentValues;
     private PropertyValues propertyValues;
     // 初始化方法的名称
     private String initMethodName;
@@ -58,11 +60,11 @@ public class BeanDefinition {
         this.dependsOn = dependsOn;
     }
 
-    public ArgumentValues getConstructorArgumentValues() {
+    public ConstructorArgumentValues getConstructorArgumentValues() {
         return constructorArgumentValues;
     }
 
-    public void setConstructorArgumentValues(ArgumentValues constructorArgumentValues) {
+    public void setConstructorArgumentValues(ConstructorArgumentValues constructorArgumentValues) {
         this.constructorArgumentValues = constructorArgumentValues;
     }
 
