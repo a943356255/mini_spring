@@ -21,4 +21,8 @@ public class BaseBaseService {
     public void setAs(AServiceImpl as) {
         this.as = as;
     }
+
+    public void sayHello() {
+        System.out.println("BaseBaseService say hello");
+    }
 }

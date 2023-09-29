@@ -144,7 +144,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     private Object createBean(BeanDefinition beanDefinition) {
         Class<?> clz = null;
-        //创建毛胚bean实例
+        // 创建毛胚bean实例
         Object obj = doCreateBean(beanDefinition);
         //存放到毛胚实例缓存中
         this.earlySingletonObjects.put(beanDefinition.getId(), obj);
@@ -153,7 +153,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        //完善bean，主要是处理属性
+        // 完善bean，主要是处理属性
         populateBean(beanDefinition, clz, obj);
         return obj;
     }
@@ -180,12 +180,10 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
                     } else if ("Integer".equals(constructorArgumentValue.getType()) ||
                                     "java.lang.Integer".equals(constructorArgumentValue.getType())) {
                         paramTypes[i] = Integer.class;
-                        paramValues[i] = Integer.valueOf((String)
-                                constructorArgumentValue.getValue());
+                        paramValues[i] = Integer.valueOf((String) constructorArgumentValue.getValue());
                     } else if ("int".equals(constructorArgumentValue.getType())) {
                         paramTypes[i] = int.class;
-                        paramValues[i] = Integer.valueOf((String)
-                                constructorArgumentValue.getValue());
+                        paramValues[i] = Integer.valueOf((String) constructorArgumentValue.getValue());
                     } else {
                         paramTypes[i] = String.class;
                         paramValues[i] = constructorArgumentValue.getValue();
@@ -197,10 +195,13 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
                 } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
+            } else {
+                obj = clz.getDeclaredConstructor().newInstance();
             }
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
         System.out.println(beanDefinition.getId() + " bean created. " + beanDefinition.getClassName() + " : " + obj.toString());
         return obj;
     }
