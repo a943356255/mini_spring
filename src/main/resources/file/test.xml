@@ -9,6 +9,9 @@
 <!--        </bean>-->
 <!--    </beans>-->
     <!-- 构造器注入 -->
+    <bean id="bbs" class="service.BaseBaseService">
+        <property type="service.impl.AServiceImpl" name="as" ref="aService" />
+    </bean>
 
     <bean id="aService" class="service.impl.AServiceImpl">
         <constructor-arg type="String" name="name" value="abc"/>
@@ -19,12 +22,10 @@
     </bean>
 
 <!--    &lt;!&ndash; 在标签里增加了 ref 属性（引用），这个属性就记录了需要引用的另外一个 Bean。 &ndash;&gt;-->
-    <bean id="basebaseservice" class="service.BaseBaseService">
-        <property type="service.impl.AServiceImpl" name="as" ref="aService" />
-    </bean>
+
 
     <bean id="baseService" class="service.BaseService">
-        <property type="service.BaseBaseService" name="bbs" ref="basebaseservice"/>
+<!--        <property type="service.BaseBaseService" name="bbs" ref="basebaseservice"/>-->
     </bean>
 
 
