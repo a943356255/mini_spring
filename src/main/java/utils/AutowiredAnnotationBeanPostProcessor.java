@@ -1,7 +1,7 @@
 package utils;
 
+import beans.factory.support.AutowireCapableBeanFactory;
 import exception.BeansException;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.lang.reflect.Field;
 
@@ -9,6 +9,9 @@ public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
 
     private AutowireCapableBeanFactory beanFactory;
 
+    /**
+     * 该方法是在创建该bean之前，遍历所有的成员属性，看是否加了@Autowired标签，如果加了该标签，找到该bean，并进行注入
+     */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         Object result = bean;
