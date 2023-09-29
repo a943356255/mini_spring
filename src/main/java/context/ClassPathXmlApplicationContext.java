@@ -1,10 +1,11 @@
 package context;
 
+import beans.factory.support.AutowireCapableBeanFactory;
+import beans.factory.support.SimpleBeanFactory;
 import core.ClassPathXmlResource;
 import core.Resource;
 import beans.factory.config.BeanDefinition;
 import beans.factory.BeanFactory;
-import beans.factory.support.SimpleBeanFactory;
 import exception.BeansException;
 import listener.ApplicationEvent;
 import listener.ApplicationEventPublisher;
@@ -13,6 +14,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import utils.AutowiredAnnotationBeanPostProcessor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -23,28 +26,56 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
     // 这里是用一个BeanDefinition，来存储xml中的id以及bean的路径
     private final List<BeanDefinition> beanDefinitions = new ArrayList<>();
 
+    private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors = new ArrayList<>();
+
     private final Map<String, Object> singletons = new HashMap<>();
 
-    SimpleBeanFactory beanFactory;
+    SimpleBeanFactory simpleBeanFactory;
 
-    public ClassPathXmlApplicationContext(String fileName, boolean isRefresh) {
+    AutowireCapableBeanFactory beanFactory;
+
+    public ClassPathXmlApplicationContext(String fileName, boolean isRefresh) throws BeansException {
         // Resource是一个接口，实例化一个ClassPathXmlResource
         // 这一步，其实已经从xml中读取完了，读取到的内容已经给了Resource中的Element
         Resource resource = new ClassPathXmlResource(fileName);
         // 实例化一个工厂
-        SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
+//        SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
+        AutowireCapableBeanFactory beanFactory = new AutowireCapableBeanFactory();
         // 为了将从xml中读取到的内容转化为BeanDefinition
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(simpleBeanFactory);
-
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
         reader.loadBeanDefinitions(resource);
-        this.beanFactory = simpleBeanFactory;
+        this.beanFactory = beanFactory;
+
         if (isRefresh) {
-            this.beanFactory.refresh();
+            refresh();
         }
     }
 
+    public List<BeanFactoryPostProcessor> getBeanFactoryPostProcessors() {
+        return this.beanFactoryPostProcessors;
+    }
+
+    public void addBeanFactoryPostProcessor(BeanFactoryPostProcessor postProcessor) {
+        this.beanFactoryPostProcessors.add(postProcessor);
+    }
+
+    public void refresh() throws IllegalStateException {
+        // Register bean processors that intercept bean creation.
+        registerBeanPostProcessors(this.beanFactory);
+        // Initialize other special beans in specific context subclasses.
+        onRefresh();
+    }
+
+    private void registerBeanPostProcessors(AutowireCapableBeanFactory beanFactory) {
+        beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
+    }
+
+    private void onRefresh() {
+        this.beanFactory.refresh();
+    }
+
     // context负责整合容器的启动过程，读外部配置，解析Bean定义，创建BeanFactory
-    public ClassPathXmlApplicationContext(String fileName) {
+    public ClassPathXmlApplicationContext(String fileName) throws BeansException {
         this(fileName, true);
     }
 
