@@ -1,7 +1,10 @@
 package service;
 
+import utils.Autowired;
+
 public class BaseService {
 
+    @Autowired
     private BaseBaseService bbs;
 
     public BaseService() {
@@ -18,5 +21,10 @@ public class BaseService {
 
     public void setBbs(BaseBaseService bbs) {
         this.bbs = bbs;
+    }
+
+    public void sayHello() {
+        System.out.println("Base Service says Hello");
+        bbs.sayHello();
     }
 }
