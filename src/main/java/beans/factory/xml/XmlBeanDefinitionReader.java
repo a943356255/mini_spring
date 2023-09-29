@@ -3,6 +3,7 @@ package beans.factory.xml;
 import beans.factory.config.BeanDefinition;
 import beans.factory.config.ConstructorArgumentValue;
 import beans.factory.config.ConstructorArgumentValues;
+import beans.factory.support.AutowireCapableBeanFactory;
 import core.Resource;
 import entity.*;
 import beans.factory.BeanFactory;
@@ -19,8 +20,10 @@ public class XmlBeanDefinitionReader {
     // 简单工厂
     SimpleBeanFactory simpleBeanFactory;
 
-    public XmlBeanDefinitionReader(SimpleBeanFactory simpleBeanFactory) {
-        this.simpleBeanFactory = simpleBeanFactory;
+    AutowireCapableBeanFactory autowireCapableBeanFactory;
+
+    public XmlBeanDefinitionReader(AutowireCapableBeanFactory beanFactory) {
+        this.autowireCapableBeanFactory = beanFactory;
     }
 
     /**
@@ -66,7 +69,7 @@ public class XmlBeanDefinitionReader {
                 String aType = e.attributeValue("type");
                 String aName = e.attributeValue("name");
                 String aValue = e.attributeValue("value");
-                AVS.addArgumentValue(new ConstructorArgumentValue(aType, aName, aValue));
+                AVS.addArgumentValue(new ConstructorArgumentValue(aValue, aType, aName));
             }
             beanDefinition.setConstructorArgumentValues(AVS);
 
@@ -74,7 +77,7 @@ public class XmlBeanDefinitionReader {
             // 这里是设置了它的依赖
             beanDefinition.setDependsOn(refArray);
             // 存储进工厂的list,这里beanId已经是动态获取的
-            this.simpleBeanFactory.registerBeanDefinition(beanID, beanDefinition);
+            this.autowireCapableBeanFactory.registerBeanDefinition(beanID, beanDefinition);
         }
     }
 }
