@@ -1,8 +1,6 @@
 package beans.factory.config;
 
 import beans.factory.BeanFactory;
-import beans.factory.config.BeanPostProcessor;
-import beans.factory.config.SingletonBeanRegistry;
 
 public interface ConfigurableBeanFactory extends BeanFactory, SingletonBeanRegistry {
 

@@ -1,6 +1,5 @@
 package beans.factory;
 
-import beans.factory.BeanFactory;
 import exception.BeansException;
 
 import java.util.Map;

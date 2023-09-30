@@ -3,7 +3,6 @@ package beans.factory.annotation;
 import beans.factory.BeanFactory;
 import beans.factory.support.AutowireCapableBeanFactory;
 import exception.BeansException;
-import utils.Autowired;
 import beans.factory.config.BeanPostProcessor;
 
 import java.lang.reflect.Field;

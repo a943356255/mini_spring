@@ -6,8 +6,6 @@ import core.Resource;
 import beans.factory.config.BeanDefinition;
 import beans.factory.BeanFactory;
 import exception.BeansException;
-import listener.ApplicationEvent;
-import listener.ApplicationEventPublisher;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;

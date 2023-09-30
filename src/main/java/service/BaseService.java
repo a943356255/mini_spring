@@ -1,6 +1,6 @@
 package service;
 
-import utils.Autowired;
+import beans.factory.annotation.Autowired;
 
 public class BaseService {
 
