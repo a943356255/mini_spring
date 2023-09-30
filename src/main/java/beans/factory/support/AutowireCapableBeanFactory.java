@@ -1,50 +1,18 @@
 package beans.factory.support;
 
+import beans.factory.BeanFactory;
 import exception.BeansException;
-import utils.AutowiredAnnotationBeanPostProcessor;
-import utils.BeanPostProcessor;
 
-import java.util.*;
+public interface AutowireCapableBeanFactory extends BeanFactory {
 
-public class AutowireCapableBeanFactory extends AbstractBeanFactory {
+    int AUTOWIRE_NO = 0;
 
-    private final List<AutowiredAnnotationBeanPostProcessor> beanPostProcessors = new ArrayList<>();
+    int AUTOWIRE_BY_NAME = 1;
 
-    public void addBeanPostProcessor(AutowiredAnnotationBeanPostProcessor beanPostProcessor) {
-        this.beanPostProcessors.remove(beanPostProcessor);
-        this.beanPostProcessors.add(beanPostProcessor);
-    }
+    int AUTOWIRE_BY_TYPE = 2;
 
-    public int getBeanPostProcessorCount() {
-        return this.beanPostProcessors.size();
-    }
+    Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException;
 
-    public List<AutowiredAnnotationBeanPostProcessor> getBeanPostProcessors() {
-        return this.beanPostProcessors;
-    }
+    Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeansException;
 
-    @Override
-    public Object applyBeanPostProcessorBeforeInitialization(Object existingBean, String beanName) throws BeansException {
-        Object result = existingBean;
-        for (AutowiredAnnotationBeanPostProcessor beanProcessor : getBeanPostProcessors()) {
-            beanProcessor.setBeanFactory(this);
-            result = beanProcessor.postProcessBeforeInitialization(result, beanName);
-            if (result == null) {
-                return null;
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public Object applyBeanPostProcessorAfterInitialization(Object existingBean, String beanName) throws BeansException {
-        Object result = existingBean;
-        for (BeanPostProcessor beanProcessor : getBeanPostProcessors()) {
-            result = beanProcessor.postProcessAfterInitialization(result, beanName);
-            if (result == null) {
-                return null;
-            }
-        }
-        return result;
-    }
 }
