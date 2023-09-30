@@ -9,6 +9,7 @@ import entity.*;
 import beans.factory.BeanFactory;
 import beans.factory.support.SimpleBeanFactory;
 import org.dom4j.Element;
+import utils.AbstractAutowireCapableBeanFactory;
 
 import java.util.*;
 
@@ -20,9 +21,9 @@ public class XmlBeanDefinitionReader {
     // 简单工厂
     SimpleBeanFactory simpleBeanFactory;
 
-    AutowireCapableBeanFactory autowireCapableBeanFactory;
+    AbstractAutowireCapableBeanFactory autowireCapableBeanFactory;
 
-    public XmlBeanDefinitionReader(AutowireCapableBeanFactory beanFactory) {
+    public XmlBeanDefinitionReader(AbstractAutowireCapableBeanFactory beanFactory) {
         this.autowireCapableBeanFactory = beanFactory;
     }
 
