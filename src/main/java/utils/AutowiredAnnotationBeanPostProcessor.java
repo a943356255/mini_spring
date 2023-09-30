@@ -1,5 +1,6 @@
 package utils;
 
+import beans.factory.BeanFactory;
 import beans.factory.support.AutowireCapableBeanFactory;
 import exception.BeansException;
 
@@ -7,7 +8,7 @@ import java.lang.reflect.Field;
 
 public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
 
-    private AutowireCapableBeanFactory beanFactory;
+    private BeanFactory beanFactory;
 
     /**
      * 该方法是在创建该bean之前，遍历所有的成员属性，看是否加了@Autowired标签，如果加了该标签，找到该bean，并进行注入
@@ -48,7 +49,12 @@ public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
         return null;
     }
 
-    public AutowireCapableBeanFactory getBeanFactory() {
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
+
+    public BeanFactory getBeanFactory() {
         return beanFactory;
     }
 
