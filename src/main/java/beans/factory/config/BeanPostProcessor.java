@@ -1,4 +1,4 @@
-package utils;
+package beans.factory.config;
 
 import beans.factory.BeanFactory;
 import exception.BeansException;

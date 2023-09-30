@@ -3,13 +3,12 @@ package beans.factory.xml;
 import beans.factory.config.BeanDefinition;
 import beans.factory.config.ConstructorArgumentValue;
 import beans.factory.config.ConstructorArgumentValues;
-import beans.factory.support.AutowireCapableBeanFactory;
 import core.Resource;
 import entity.*;
 import beans.factory.BeanFactory;
 import beans.factory.support.SimpleBeanFactory;
 import org.dom4j.Element;
-import utils.AbstractAutowireCapableBeanFactory;
+import beans.factory.config.AbstractAutowireCapableBeanFactory;
 
 import java.util.*;
 

@@ -1,6 +1,5 @@
 package context;
 
-import beans.factory.support.AutowireCapableBeanFactory;
 import beans.factory.support.SimpleBeanFactory;
 import core.ClassPathXmlResource;
 import core.Resource;
@@ -15,8 +14,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import utils.AbstractAutowireCapableBeanFactory;
-import utils.AutowiredAnnotationBeanPostProcessor;
+import beans.factory.config.AbstractAutowireCapableBeanFactory;
+import beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
