@@ -149,4 +149,9 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
     public void publishEvent(ApplicationEvent event) {
 
     }
+
+    @Override
+    public void addApplicationListener(ApplicationListener listener) {
+
+    }
 }
