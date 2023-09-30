@@ -49,13 +49,4 @@ public class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory impl
         return result;
     }
 
-//    @Override
-//    public Object applyBeanPostProcessorBeforeInitialization(Object existingBean, String beanName) throws BeansException {
-//        return null;
-//    }
-//
-//    @Override
-//    public Object applyBeanPostProcessorAfterInitialization(Object existingBean, String beanName) throws BeansException {
-//        return null;
-//    }
 }
