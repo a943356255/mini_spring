@@ -15,6 +15,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import utils.AbstractAutowireCapableBeanFactory;
 import utils.AutowiredAnnotationBeanPostProcessor;
 
 import java.lang.reflect.InvocationTargetException;
@@ -32,7 +33,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
 
     SimpleBeanFactory simpleBeanFactory;
 
-    AutowireCapableBeanFactory beanFactory;
+    AbstractAutowireCapableBeanFactory beanFactory;
 
     public ClassPathXmlApplicationContext(String fileName, boolean isRefresh) throws BeansException {
         // Resource是一个接口，实例化一个ClassPathXmlResource
@@ -40,7 +41,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
         Resource resource = new ClassPathXmlResource(fileName);
         // 实例化一个工厂
 //        SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
-        AutowireCapableBeanFactory beanFactory = new AutowireCapableBeanFactory();
+        AbstractAutowireCapableBeanFactory beanFactory = new AbstractAutowireCapableBeanFactory();
         // 为了将从xml中读取到的内容转化为BeanDefinition
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
         reader.loadBeanDefinitions(resource);
@@ -66,7 +67,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
         onRefresh();
     }
 
-    private void registerBeanPostProcessors(AutowireCapableBeanFactory beanFactory) {
+    private void registerBeanPostProcessors(AbstractAutowireCapableBeanFactory beanFactory) {
         beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
     }
 
