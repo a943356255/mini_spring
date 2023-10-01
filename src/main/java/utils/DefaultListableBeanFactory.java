@@ -7,6 +7,9 @@ import exception.BeansException;
 
 import java.util.*;
 
+/**
+ * 该类是IoC的引擎，它继承了其他 BeanFactory 类来实现 Bean 的创建管理功能
+ */
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory {
 
     ConfigurableListableBeanFactory parentBeanFactory;
