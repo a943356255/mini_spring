@@ -33,7 +33,9 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 
     public void refresh() throws BeansException, IllegalStateException {
         postProcessBeanFactory(getBeanFactory());
+        // 注册监听者
         registerBeanPostProcessors(getBeanFactory());
+        // 初始化事件发布者
         initApplicationEventPublisher();
         onRefresh();
         registerListeners();
@@ -79,5 +81,11 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         return true;
     }
 
-    // 省略包装beanfactory的方法
+    public ApplicationEventPublisher getApplicationEventPublisher() {
+        return applicationEventPublisher;
+    }
+
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
+    }
 }
